@@ -7,8 +7,4 @@ env.py
 *.json
 *.png
 *.jpg
-chase/
-shay/
-ravinder/
-allen/
 data/
