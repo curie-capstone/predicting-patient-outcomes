@@ -61,7 +61,21 @@ def fill_with_zero(df):
         df[col].fillna(0, inplace=True)
         print('\t * ' + col)
     return df
+
+def min_max_cols(df):
+    min_max = []
+    for col in df.columns:
+        if '_min' in col and col.replace('_min', '_max') in df.columns:
+            min_max.append(col)
+    return min_max
         
+def fix_min_max(df):
+    min_max = min_max_cols(df)
+    for col in min_max:
+        vals = df[[col, col.replace('_min', '_max')]].values.copy()
+
+        df[col] = np.nanmin(vals, axis=1)
+        df[col.replace('_min', '_max')] = np.nanmax(vals, axis=1)
 
 # Main Function
 def get_training_data():
@@ -80,5 +94,6 @@ def get_training_data():
     df.pipe(drop_rows)
     print('Filling nulls with 0 (aka False) for the following columns')
     df.pipe(fill_with_zero)
+    fix_min_max(df)
     return df
     
