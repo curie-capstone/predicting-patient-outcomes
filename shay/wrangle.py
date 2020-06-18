@@ -26,7 +26,8 @@ def select_columns_to_use(df):
 
 # -----Dtype Tools-----
 def convert_to_int_col(df):
-    cols = ['age']
+    cols = ['age', 'gcs_eyes_apache', 'gcs_motor_apache',
+            'gcs_verbal_apache']
     for col in cols:
         df[col] = df[col].astype(int)
     return col
