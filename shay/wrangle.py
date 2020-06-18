@@ -30,6 +30,15 @@ def convert_to_int_col(df):
     for col in cols:
         df[col] = df[col].astype(int)
     return col
+
+def convert_to_bool_col(df):
+    cols = ['solid_tumor_with_metastasis', 'lymphoma', 
+            'leukemia', 'immunosuppression', 
+            'hepatic_failure', 'diabetes_mellitus', 
+            'aids', 'cirrhosis', 'intubated_apache',
+            'hospital_death', 'arf_apache']
+    for col in cols:
+        df[col] = df[col].astype(bool)
     
 # ------Handling Nulls-----
 def drop_cols_and_rows_by_threshold(df, prop_required_column = .2, prop_required_row = .4):
@@ -102,6 +111,7 @@ def get_training_data():
     
     print('---Converting Data Types---')
     df.pipe(convert_to_int_col)
+    df.pipe(convert_to_bool_col)
     print('done')
     return df
     
