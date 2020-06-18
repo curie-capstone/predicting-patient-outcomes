@@ -3,18 +3,44 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 # Acquiring the Data
-def get_data():
+def get_raw_data():
     # Get the data into a pandas dataframe
     df =  pd.read_csv('data/training_v2.csv')
     print(f'rows: {df.shape[0]}, columns: {df.shape[1]}')
+    df.set_index('patient_id', inplace=True)
     return df
 
+def select_columns_to_use(df):
+    cols = ['bmi', 'age', 'gender', 'ethnicity',
+            'solid_tumor_with_metastasis', 'lymphoma', 
+            'leukemia', 'immunosuppression', 
+            'hepatic_failure', 'diabetes_mellitus', 
+            'aids', 'cirrhosis', 'intubated_apache',
+            'hospital_death', 'arf_apache', 
+            'gcs_eyes_apache', 'gcs_motor_apache',
+            'gcs_verbal_apache']
+    new_df = df[cols]
+    print(f'rows: {new_df.shape[0]}, columns: {new_df.shape[1]}')
+    return new_df
 
-# Dtype Tools
-def convert_to_int_col(col):
-    col = col.astype(int)
+
+# -----Dtype Tools-----
+def convert_to_int_col(df):
+    cols = ['age']
+    for col in cols:
+        df[col] = df[col].astype(int)
+    return col
+
+def convert_to_bool_col(df):
+    cols = ['solid_tumor_with_metastasis', 'lymphoma', 
+            'leukemia', 'immunosuppression', 
+            'hepatic_failure', 'diabetes_mellitus', 
+            'aids', 'cirrhosis', 'intubated_apache',
+            'hospital_death', 'arf_apache']
+    for col in cols:
+        df[col] = df[col].astype(bool)
     
-
+# ------Handling Nulls-----
 def drop_cols_and_rows_by_threshold(df, prop_required_column = .2, prop_required_row = .4):
     shape_before = df.shape
     threshold = int(round(prop_required_column*len(df.index),0))
@@ -69,8 +95,9 @@ def get_training_data():
     Reads in the data as a pandas dataframe. Handles null values.
     ''' 
     print('---Acquiring the Data---')
-    df = get_data()
-    
+    df = get_raw_data()
+    print('Selecting specfic columns to use')
+    df = select_columns_to_use(df)
     print('\n')
     
     print('---Handling Missing Values---')
@@ -80,5 +107,11 @@ def get_training_data():
     df.pipe(drop_rows)
     print('Filling nulls with 0 (aka False) for the following columns')
     df.pipe(fill_with_zero)
+    print('\n')
+    
+    print('---Converting Data Types---')
+    df.pipe(convert_to_int_col)
+    df.pipe(convert_to_bool_col)
+    print('done')
     return df
     
