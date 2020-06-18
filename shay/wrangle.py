@@ -39,6 +39,7 @@ def convert_to_bool_col(df):
             'hospital_death', 'arf_apache']
     for col in cols:
         df[col] = df[col].astype(bool)
+    return df
     
 # ------Handling Nulls-----
 def drop_cols_and_rows_by_threshold(df, prop_required_column = .2, prop_required_row = .4):
@@ -87,6 +88,13 @@ def fill_with_zero(df):
         df[col].fillna(0, inplace=True)
         print('\t * ' + col)
     return df
+
+def fill_gcs(df):
+    cols = ['gcs_eyes_apache', 'gcs_motor_apache',
+            'gcs_verbal_apache']
+    for col in cols:
+        df[col].fillna(5, inplace=True)
+    return df
         
 
 # Main Function
@@ -107,6 +115,8 @@ def get_training_data():
     df.pipe(drop_rows)
     print('Filling nulls with 0 (aka False) for the following columns')
     df.pipe(fill_with_zero)
+    print('Filling nulls in the gcs data with the average (5)')
+    df.pipe(fill_gcs)
     print('\n')
     
     print('---Converting Data Types---')
