@@ -26,7 +26,8 @@ def select_columns_to_use(df):
 
 # -----Dtype Tools-----
 def convert_to_int_col(df):
-    cols = ['age']
+    cols = ['age', 'gcs_eyes_apache', 'gcs_motor_apache',
+            'gcs_verbal_apache']
     for col in cols:
         df[col] = df[col].astype(int)
     return col
@@ -95,6 +96,7 @@ def fill_gcs(df):
     for col in cols:
         df[col].fillna(5, inplace=True)
     return df
+
 
 def min_max_cols(df):
     min_max = []
