@@ -1,4 +1,4 @@
-import features
+import src.features
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -7,167 +7,8 @@ from sklearn.preprocessing import LabelEncoder
 def get_raw_data():
     # Get the data into a pandas dataframe
     df = pd.read_csv("data/training_v2.csv")
-    print(f"rows: {df.shape[0]}, columns: {df.shape[1]}")
     df.set_index("patient_id", inplace=True)
     return df
-
-
-def select_columns_to_use(df):
-    cols = [
-        "bmi",
-        "age",
-        "gender",
-        "ethnicity",
-        "solid_tumor_with_metastasis",
-        "lymphoma",
-        "leukemia",
-        "immunosuppression",
-        "hepatic_failure",
-        "diabetes_mellitus",
-        "aids",
-        "cirrhosis",
-        "intubated_apache",
-        "hospital_death",
-        "arf_apache",
-        "elective_surgery",
-        "icu_admit_source",
-        "icu_id",
-        "icu_stay_type",
-        "gcs_eyes_apache",
-        "gcs_motor_apache",
-        "gcs_verbal_apache",
-        "d1_diasbp_invasive_max",
-        "d1_diasbp_invasive_min",
-        "d1_diasbp_max",
-        "d1_diasbp_min",
-        "d1_diasbp_noninvasive_max",
-        "d1_diasbp_noninvasive_min",
-        "d1_heartrate_max",
-        "d1_heartrate_min",
-        "d1_mbp_invasive_max",
-        "d1_mbp_invasive_min",
-        "d1_mbp_max",
-        "d1_mbp_min",
-        "d1_mbp_noninvasive_max",
-        "d1_mbp_noninvasive_min",
-        "d1_resprate_max",
-        "d1_resprate_min",
-        "d1_spo2_max",
-        "d1_spo2_min",
-        "d1_sysbp_invasive_max",
-        "d1_sysbp_invasive_min",
-        "d1_sysbp_max",
-        "d1_sysbp_min",
-        "d1_sysbp_noninvasive_max",
-        "d1_sysbp_noninvasive_min",
-        "d1_temp_max",
-        "d1_temp_min",
-        "d1_albumin_max",
-        "d1_albumin_min",
-        "d1_bilirubin_max",
-        "d1_bilirubin_min",
-        "d1_bun_max",
-        "d1_bun_min",
-        "d1_calcium_max",
-        "d1_calcium_min",
-        "d1_creatinine_max",
-        "d1_creatinine_min",
-        "d1_glucose_max",
-        "d1_glucose_min",
-        "d1_hco3_max",
-        "d1_hco3_min",
-        "d1_hemaglobin_max",
-        "d1_hemaglobin_min",
-        "d1_hematocrit_max",
-        "d1_hematocrit_min",
-        "d1_inr_max",
-        "d1_inr_min",
-        "d1_lactate_max",
-        "d1_lactate_min",
-        "d1_platelets_max",
-        "d1_platelets_min",
-        "d1_potassium_max",
-        "d1_potassium_min",
-        "d1_sodium_max",
-        "d1_sodium_min",
-        "d1_wbc_max",
-        "d1_wbc_min",
-        "d1_arterial_pco2_max",
-        "d1_arterial_pco2_min",
-        "d1_arterial_ph_max",
-        "d1_arterial_ph_min",
-        "d1_arterial_po2_max",
-        "d1_arterial_po2_min",
-        "d1_pao2fio2ratio_max",
-        "d1_pao2fio2ratio_min",
-        "h1_diasbp_invasive_max",
-        "h1_diasbp_invasive_min",
-        "h1_diasbp_max",
-        "h1_diasbp_min",
-        "h1_diasbp_noninvasive_max",
-        "h1_diasbp_noninvasive_min",
-        "h1_heartrate_max",
-        "h1_heartrate_min",
-        "h1_mbp_invasive_max",
-        "h1_mbp_invasive_min",
-        "h1_mbp_max",
-        "h1_mbp_min",
-        "h1_mbp_noninvasive_max",
-        "h1_mbp_noninvasive_min",
-        "h1_resprate_max",
-        "h1_resprate_min",
-        "h1_spo2_max",
-        "h1_spo2_min",
-        "h1_sysbp_invasive_max",
-        "h1_sysbp_invasive_min",
-        "h1_sysbp_max",
-        "h1_sysbp_min",
-        "h1_sysbp_noninvasive_max",
-        "h1_sysbp_noninvasive_min",
-        "h1_temp_max",
-        "h1_temp_min",
-        "h1_albumin_max",
-        "h1_albumin_min",
-        "h1_bilirubin_max",
-        "h1_bilirubin_min",
-        "h1_bun_max",
-        "h1_bun_min",
-        "h1_calcium_max",
-        "h1_calcium_min",
-        "h1_creatinine_max",
-        "h1_creatinine_min",
-        "h1_glucose_max",
-        "h1_glucose_min",
-        "h1_hco3_max",
-        "h1_hco3_min",
-        "h1_hemaglobin_max",
-        "h1_hemaglobin_min",
-        "h1_hematocrit_max",
-        "h1_hematocrit_min",
-        "h1_inr_max",
-        "h1_inr_min",
-        "h1_lactate_max",
-        "h1_lactate_min",
-        "h1_platelets_max",
-        "h1_platelets_min",
-        "h1_potassium_max",
-        "h1_potassium_min",
-        "h1_sodium_max",
-        "h1_sodium_min",
-        "h1_wbc_max",
-        "h1_wbc_min",
-        "h1_arterial_pco2_max",
-        "h1_arterial_pco2_min",
-        "h1_arterial_ph_max",
-        "h1_arterial_ph_min",
-        "h1_arterial_po2_max",
-        "h1_arterial_po2_min",
-        "h1_pao2fio2ratio_max",
-        "h1_pao2fio2ratio_min",
-    ]
-    new_df = df[cols]
-    print(f"rows: {new_df.shape[0]}, columns: {new_df.shape[1]}")
-    return new_df
 
 
 # -----Dtype Tools-----
@@ -175,7 +16,7 @@ def convert_to_int_col(df):
     cols = ["age", "gcs_eyes_apache", "gcs_motor_apache", "gcs_verbal_apache"]
     for col in cols:
         df[col] = df[col].astype(int)
-    return col
+    return df
 
 
 def convert_to_bool_col(df):
@@ -209,9 +50,6 @@ def drop_cols_and_rows_by_threshold(
     shape_aßfter = df.shape
     rows = shape_before[0] - shape_after[0]
     cols = shape_before[1] - shape_after[1]
-    print(
-        f"\t * Number of patients dropped: {rows} \n \t * Number of features dropped:{cols}"
-    )
     return df
 
 
@@ -222,155 +60,38 @@ def fill_with_mode(df):
             df[col].fillna(int(df[col].mode()), inplace=True)
         else:
             df[col].fillna(df[col].mode()[0], inplace=True)
-        print("\t * " + col)
     return df
 
 
 def fill_with_median(df):
-    cols = [
-        "d1_diasbp_invasive_max",
-        "d1_diasbp_invasive_min",
-        "d1_diasbp_max",
-        "d1_diasbp_min",
-        "d1_diasbp_noninvasive_max",
-        "d1_diasbp_noninvasive_min",
-        "d1_heartrate_max",
-        "d1_heartrate_min",
-        "d1_mbp_invasive_max",
-        "d1_mbp_invasive_min",
-        "d1_mbp_max",
-        "d1_mbp_min",
-        "d1_mbp_noninvasive_max",
-        "d1_mbp_noninvasive_min",
-        "d1_resprate_max",
-        "d1_resprate_min",
-        "d1_spo2_max",
-        "d1_spo2_min",
-        "d1_sysbp_invasive_max",
-        "d1_sysbp_invasive_min",
-        "d1_sysbp_max",
-        "d1_sysbp_min",
-        "d1_sysbp_noninvasive_max",
-        "d1_sysbp_noninvasive_min",
-        "d1_temp_max",
-        "d1_temp_min",
-        "d1_albumin_max",
-        "d1_albumin_min",
-        "d1_bilirubin_max",
-        "d1_bilirubin_min",
-        "d1_bun_max",
-        "d1_bun_min",
-        "d1_calcium_max",
-        "d1_calcium_min",
-        "d1_creatinine_max",
-        "d1_creatinine_min",
-        "d1_glucose_max",
-        "d1_glucose_min",
-        "d1_hco3_max",
-        "d1_hco3_min",
-        "d1_hemaglobin_max",
-        "d1_hemaglobin_min",
-        "d1_hematocrit_max",
-        "d1_hematocrit_min",
-        "d1_inr_max",
-        "d1_inr_min",
-        "d1_lactate_max",
-        "d1_lactate_min",
-        "d1_platelets_max",
-        "d1_platelets_min",
-        "d1_potassium_max",
-        "d1_potassium_min",
-        "d1_sodium_max",
-        "d1_sodium_min",
-        "d1_wbc_max",
-        "d1_wbc_min",
-        "d1_arterial_pco2_max",
-        "d1_arterial_pco2_min",
-        "d1_arterial_ph_max",
-        "d1_arterial_ph_min",
-        "d1_arterial_po2_max",
-        "d1_arterial_po2_min",
-        "d1_pao2fio2ratio_max",
-        "d1_pao2fio2ratio_min",
-        "h1_diasbp_invasive_max",
-        "h1_diasbp_invasive_min",
-        "h1_diasbp_max",
-        "h1_diasbp_min",
-        "h1_diasbp_noninvasive_max",
-        "h1_diasbp_noninvasive_min",
-        "h1_heartrate_max",
-        "h1_heartrate_min",
-        "h1_mbp_invasive_max",
-        "h1_mbp_invasive_min",
-        "h1_mbp_max",
-        "h1_mbp_min",
-        "h1_mbp_noninvasive_max",
-        "h1_mbp_noninvasive_min",
-        "h1_resprate_max",
-        "h1_resprate_min",
-        "h1_spo2_max",
-        "h1_spo2_min",
-        "h1_sysbp_invasive_max",
-        "h1_sysbp_invasive_min",
-        "h1_sysbp_max",
-        "h1_sysbp_min",
-        "h1_sysbp_noninvasive_max",
-        "h1_sysbp_noninvasive_min",
-        "h1_temp_max",
-        "h1_temp_min",
-        "h1_albumin_max",
-        "h1_albumin_min",
-        "h1_bilirubin_max",
-        "h1_bilirubin_min",
-        "h1_bun_max",
-        "h1_bun_min",
-        "h1_calcium_max",
-        "h1_calcium_min",
-        "h1_creatinine_max",
-        "h1_creatinine_min",
-        "h1_glucose_max",
-        "h1_glucose_min",
-        "h1_hco3_max",
-        "h1_hco3_min",
-        "h1_hemaglobin_max",
-        "h1_hemaglobin_min",
-        "h1_hematocrit_max",
-        "h1_hematocrit_min",
-        "h1_inr_max",
-        "h1_inr_min",
-        "h1_lactate_max",
-        "h1_lactate_min",
-        "h1_platelets_max",
-        "h1_platelets_min",
-        "h1_potassium_max",
-        "h1_potassium_min",
-        "h1_sodium_max",
-        "h1_sodium_min",
-        "h1_wbc_max",
-        "h1_wbc_min",
-        "h1_arterial_pco2_max",
-        "h1_arterial_pco2_min",
-        "h1_arterial_ph_max",
-        "h1_arterial_ph_min",
-        "h1_arterial_po2_max",
-        "h1_arterial_po2_min",
-        "h1_pao2fio2ratio_max",
-        "h1_pao2fio2ratio_min",
+    """
+    Handles Nulls within the h1 and d1 features in a dataframe
+    """
+    d1_h1 = [col for col in df.columns if "d1" in col or "h1" in col]
+    apache = [
+        col
+        for col in df.columns
+        if "_apache" in col and "gcs" not in col and df[col].dtype != bool
     ]
+    cols = d1_h1 + apache
     for col in cols:
         df[col].fillna(df[col].median(), inplace=True)
     return df
 
 
 def drop_rows(df):
-    print("\t * Dropping patients with no recorded gender")
+    """
+    Handle particular patients with issues that couldn't be resolved with imputation
+    """
     num_patients = df.gender.isna().sum()
     df.dropna(subset=["gender"], inplace=True)
-    print(f"\t\t - Number of patients dropped: {num_patients}")
     return df
 
 
 def fill_with_zero(df):
+    """
+    These data points are bools, so filling with False since that is the most common
+    """
     cols = [
         "arf_apache",
         "intubated_apache",
@@ -391,11 +112,13 @@ def fill_with_zero(df):
 
     for col in cols:
         df[col].fillna(0, inplace=True)
-        print("\t * " + col)
     return df
 
 
 def fill_gcs(df):
+    """
+    The average GCS score for a human is 5, so specifying that for gcs related features
+    """
     cols = ["gcs_eyes_apache", "gcs_motor_apache", "gcs_verbal_apache"]
     for col in cols:
         df[col].fillna(5, inplace=True)
@@ -411,6 +134,10 @@ def min_max_cols(df):
 
 
 def fix_min_max(df):
+    """
+    Fixes features where the min value is greater than the max value
+    """
+
     min_max = min_max_cols(df)
     for col in min_max:
         vals = df[[col, col.replace("_min", "_max")]].values.copy()
@@ -422,29 +149,18 @@ def fix_min_max(df):
 # Main Function
 def get_training_data():
     """
-    Reads in the data as a pandas dataframe. Handles null values.
+    Reads in the data as a pandas dataframe. 
+    Applies data transformation functions to handle null values. 
+    Fixes features where the min values is greater than the max value.
     """
-    print("---Acquiring the Data---")
-    df = get_raw_data()
-    print("Selecting specfic columns to use")
-    df = select_columns_to_use(df)
-    print("\n")
-
-    print("---Handling Missing Values---")
-    print("Filling nulls with mode for the following features:")
-    df.pipe(fill_with_mode)
-    print("Filling nulls with median")
-    df.pipe(fill_with_median)
-    print("Handling nulls within rows")
-    df.pipe(drop_rows)
-    print("Filling nulls with 0 (aka False) for the following columns")
-    df.pipe(fill_with_zero)
-    print("Filling nulls in the gcs data with the average (5)")
-    df.pipe(fill_gcs)
-    print("\n")
-
-    print("---Converting Data Types---")
-    df.pipe(convert_to_int_col)
-    df.pipe(convert_to_bool_col)
-    print("done")
+    df = (
+        get_raw_data()
+        .pipe(fill_with_mode)
+        .pipe(fill_with_median)
+        .pipe(drop_rows)
+        .pipe(fill_with_zero)
+        .pipe(fill_gcs)
+        .pipe(convert_to_int_col)
+        .pipe(convert_to_bool_col)
+    )
     return df
