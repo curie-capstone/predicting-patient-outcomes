@@ -1,5 +1,0 @@
-Features Cleaned:
-* 'elective_surgery', 'icu_admit_source', 'icu_id', 'icu_stay_type'
-
-Features Engineered:
-* apache_summed: scores that are summed from columns containing '_apache' in the column name
