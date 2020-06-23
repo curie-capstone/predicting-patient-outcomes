@@ -53,7 +53,9 @@ def drop_cols_and_rows_by_threshold(
 
 
 def fill_with_mode(df):
-    cols = ["age", "bmi", "ethnicity", "icu_admit_source"]
+    cols = ['age', 'bmi', 'ethnicity', 
+            'icu_admit_source', 'hospital_admit_source',
+            'apache_3j_bodysystem', 'apache_2_bodysystem']
     for col in cols:
         if df[col].dtype == float:
             df[col].fillna(int(df[col].mode()), inplace=True)
@@ -64,15 +66,15 @@ def fill_with_mode(df):
 
 def fill_with_median(df):
     """
-    Handles Nulls within the h1 and d1 features in a dataframe
+    Handles Nulls within the h1, d1 and apache features in a dataframe
     """
     d1_h1 = [col for col in df.columns if "d1" in col or "h1" in col]
-    apache = [
-        col
-        for col in df.columns
-        if "_apache" in col and "gcs" not in col and df[col].dtype != bool
-    ]
-    cols = d1_h1 + apache
+    apache = [col for col in df.columns if "_apache" in col and "gcs" not in col and df[col].dtype != bool]
+    additional_cols = ['weight', 'height', 'apache_4a_icu_death_prob',
+                       'apache_4a_hospital_death_prob', 'apache_2_diagnosis',
+                       'apache_3j_diagnosis']
+    cols = d1_h1 + apache + additional_cols
+    
     for col in cols:
         df[col].fillna(df[col].median(), inplace=True)
     return df
@@ -103,10 +105,7 @@ def fill_with_zero(df):
         "lymphoma",
         "solid_tumor_with_metastasis",
         "hospital_death",
-        "ethnicity",
-        "gender",
-        "age",
-        "bmi",
+        'gcs_unable_apache'
     ]
 
     for col in cols:
@@ -152,8 +151,12 @@ def get_training_data():
     Applies data transformation functions to handle null values. 
     Fixes features where the min values is greater than the max value.
     """
-    df = (
-        get_raw_data()
+    
+    
+    df = get_raw_data()
+        
+    (    
+        df
         .pipe(fill_with_mode)
         .pipe(fill_with_median)
         .pipe(drop_rows)
