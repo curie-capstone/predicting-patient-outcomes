@@ -93,7 +93,6 @@ def fill_with_zero(df):
         "leukemia",
         "lymphoma",
         "solid_tumor_with_metastasis",
-        "hospital_death",
         "gcs_unable_apache",
     ]
 
