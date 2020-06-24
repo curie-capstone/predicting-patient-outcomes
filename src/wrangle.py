@@ -31,6 +31,7 @@ def fill_with_mode(df):
         "age",
         "bmi",
         "ethnicity",
+        "gender",
         "icu_admit_source",
         "hospital_admit_source",
         "apache_3j_bodysystem",
@@ -66,15 +67,6 @@ def fill_with_median(df):
 
     for col in cols:
         df[col].fillna(df[col].median(), inplace=True)
-    return df
-
-
-def drop_rows(df):
-    """
-    Handle particular patients with issues that couldn't be resolved with imputation
-    """
-    num_patients = df.gender.isna().sum()
-    df.dropna(subset=["gender"], inplace=True)
     return df
 
 
@@ -151,7 +143,6 @@ def prepare_data(df):
     (
         df.pipe(fill_with_mode)
         .pipe(fill_with_median)
-        .pipe(drop_rows)
         .pipe(fill_with_zero)
         .pipe(fill_gcs)
         .pipe(convert_to_int_col)
