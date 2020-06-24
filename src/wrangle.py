@@ -2,13 +2,6 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
-# Acquiring the Data
-def get_raw_data():
-    # Get the data into a pandas dataframe
-    df = pd.read_csv("data/training_v2.csv")
-    df.set_index("patient_id", inplace=True)
-    return df
-
 
 # -----Dtype Tools-----
 def convert_to_int_col(df):
@@ -34,9 +27,15 @@ def drop_cols_and_rows_by_threshold(
 
 
 def fill_with_mode(df):
-    cols = ['age', 'bmi', 'ethnicity', 
-            'icu_admit_source', 'hospital_admit_source',
-            'apache_3j_bodysystem', 'apache_2_bodysystem']
+    cols = [
+        "age",
+        "bmi",
+        "ethnicity",
+        "icu_admit_source",
+        "hospital_admit_source",
+        "apache_3j_bodysystem",
+        "apache_2_bodysystem",
+    ]
     for col in cols:
         if df[col].dtype == float:
             df[col].fillna(int(df[col].mode()), inplace=True)
@@ -50,12 +49,21 @@ def fill_with_median(df):
     Handles Nulls within the h1, d1 and apache features in a dataframe
     """
     d1_h1 = [col for col in df.columns if "d1" in col or "h1" in col]
-    apache = [col for col in df.columns if "_apache" in col and "gcs" not in col and df[col].dtype != bool]
-    additional_cols = ['weight', 'height', 'apache_4a_icu_death_prob',
-                       'apache_4a_hospital_death_prob', 'apache_2_diagnosis',
-                       'apache_3j_diagnosis']
+    apache = [
+        col
+        for col in df.columns
+        if "_apache" in col and "gcs" not in col and df[col].dtype != bool
+    ]
+    additional_cols = [
+        "weight",
+        "height",
+        "apache_4a_icu_death_prob",
+        "apache_4a_hospital_death_prob",
+        "apache_2_diagnosis",
+        "apache_3j_diagnosis",
+    ]
     cols = d1_h1 + apache + additional_cols
-    
+
     for col in cols:
         df[col].fillna(df[col].median(), inplace=True)
     return df
@@ -86,7 +94,7 @@ def fill_with_zero(df):
         "lymphoma",
         "solid_tumor_with_metastasis",
         "hospital_death",
-        'gcs_unable_apache'
+        "gcs_unable_apache",
     ]
 
     for col in cols:
@@ -126,19 +134,23 @@ def fix_min_max(df):
 
 
 # Main Function
-def get_training_data():
+def get_raw_data():
+    # Get the data into a pandas dataframe
+    df = pd.read_csv("data/training_v2.csv")
+    df.set_index("patient_id", inplace=True)
+    return df
+
+
+def prepare_data(df):
     """
-    Reads in the data as a pandas dataframe. 
+    Takes in a Data Frame.
     Applies data transformation functions to handle null values. 
     Fixes features where the min values is greater than the max value.
+    Returns the Data Frame
     """
-    
-    
-    df = get_raw_data()
-        
-    (    
-        df
-        .pipe(fill_with_mode)
+
+    (
+        df.pipe(fill_with_mode)
         .pipe(fill_with_median)
         .pipe(drop_rows)
         .pipe(fill_with_zero)
