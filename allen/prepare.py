@@ -52,7 +52,7 @@ def prep_data(df):
     skewed_numeric_features = df.columns[df.columns.isin(numeric_features)]
     numeric_df = df[skewed_numeric_features]
     # Use iterative Imputer to fill in null with the information of other features
-    imp = IterativeImputer(max_iter=1, verbose=0)
+    imp = IterativeImputer(max_iter=3, verbose=0)
     imp.fit(numeric_df)
     imputed_df = imp.transform(numeric_df)
     imputed_df = pd.DataFrame(imputed_df, columns=numeric_df.columns)
