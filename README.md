@@ -4,6 +4,11 @@
 The challenge is to create a model that uses data from the first 24 hours of intensive care to predict patient survival. MIT's [GOSSIS](https://gossis.mit.edu/) community initiative has provided a dataset of more than 130,000 hospital Intensive Care Unit (ICU) visits from patients, spanning a one-year timeframe. This data is part of a growing global effort and consortium spanning Argentina, Australia, New Zealand, Sri Lanka, Brazil, and more than 200 hospitals in the United States.
 For this project, we're looking to improve upon the industry standard predictive model, which has been deployed by hospitals since 1992.
 
+## Deliverables
+Link to our website:
+Link to our presentation:
+Link to our handout summarizing the project:
+
 ## How We Got the Data
 We accessed MIT's GOSSIS data through the Women in [The Women in Data Science (WiDS) Datathon 2020 Kaggle Competition](https://www.kaggle.com/c/widsdatathon2020/overview). This data was hosted on Kaggle as a competition, and was downloaded in CSV format. Though the competition closed on February 24, 2020 the CSVs are still available from the Kaggle site. 
 
