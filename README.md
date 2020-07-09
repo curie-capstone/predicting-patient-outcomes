@@ -5,9 +5,9 @@ The challenge is to create a model that uses data from the first 24 hours of int
 For this project, we're looking to improve upon the industry standard predictive model, which has been deployed by hospitals since 1992.
 
 ## Deliverables
-* Link to our website: http.curiecapstone.com
-* Link to our presentation: 
-* Link to our handout summarizing the project: 
+* [Link to our website](http.curiecapstone.com)
+* [Link to our presentation](https://docs.google.com/presentation/d/1DLtEgs9hmQa4dMBxr8Yv7EFRpvykfvg2chB7D8xYb_g/edit?usp=sharing)
+* [Link to our handout summarizing the project](https://github.com/curie-capstone/predicting-patient-outcomes/blob/master/icu_survived_executive_summary.pdf)
 
 ## How We Got the Data
 We accessed MIT's GOSSIS data through the Women in [The Women in Data Science (WiDS) Datathon 2020 Kaggle Competition](https://www.kaggle.com/c/widsdatathon2020/overview). This data was hosted on Kaggle as a competition, and was downloaded in CSV format. Though the competition closed on February 24, 2020 the CSVs are still available from the Kaggle site. 
