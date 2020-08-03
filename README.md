@@ -5,7 +5,7 @@ The challenge is to create a model that uses data from the first 24 hours of int
 For this project, we're looking to improve upon the industry standard predictive model, which has been deployed by hospitals since 1992.
 
 ## Deliverables
-* [Link to our website](http.curiecapstone.com)
+* [Link to our website](http://curiecapstone.com/)
 * [Link to our presentation](https://docs.google.com/presentation/d/1DLtEgs9hmQa4dMBxr8Yv7EFRpvykfvg2chB7D8xYb_g/edit?usp=sharing)
 * [Link to our handout summarizing the project](https://github.com/curie-capstone/predicting-patient-outcomes/blob/master/icu_survived_executive_summary.pdf)
 
